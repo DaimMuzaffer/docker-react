@@ -1,0 +1,14 @@
+FROM node:alpine
+
+RUN addgroup app && adduser -S -G app app                                                                                                               
+USER app                                                                                                                                                
+WORKDIR /usr/app                                                                                                                                            
+COPY --chown=app package.json .                                                                                                                         
+                                                                                                                                                                                                                                                                  
+USER root                                                                                                                                               
+RUN npm install                                                                                                                                         
+RUN chown app:app /usr/app/node_modules                                                                                                                     
+USER app                                                                                                                                                
+                                                                                                                                                         
+COPY --chown=app . .
+CMD ["npm", "run", "start"]
